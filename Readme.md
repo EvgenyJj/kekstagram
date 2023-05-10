@@ -1,7 +1,6 @@
-# Личный проект «{{projectTitle}}»
+# Личный проект «Кекстаграм»
 
-* Студент: [{{userName}}]({{userProfile}}).
-* Наставник: `Неизвестно`.
+* Студент: [Evgeny Danilov](https://htmlacademy.ru/profile/id1888481).
 
 ---
 
