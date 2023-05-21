@@ -14,7 +14,7 @@ function getRandomIntInclusive(min, max) {
 const MAXIMUM_STRING_LENGHT = 140;
 
 function getStringLengthCheck (testString, MAXIMUM_STRING_LENGHT) {
-  if (testString > MAXIMUM_STRING_LENGHT) {
+  if (testString.length > MAXIMUM_STRING_LENGHT) {
     return false;
   }
   return true;
