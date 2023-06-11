@@ -1,13 +1,13 @@
-import {getRandomPositiveInteger, generateIdNumber, getStringLengthCheck} from './utils.js';
+import {getRandomPositiveInteger, createRandomIdFromRangeGenerator, createIdGenerator, getStringLengthCheck} from './utils.js';
 
 const commentsCount = 4;
 const MAXIMUM_STRING_LENGHT = 140;
-const MIN_NUMBER = 1;
-const MAX_NUMBER = 25;
+const MIN_VALUE = 1;
+const MAX_VALUE = 25;
 const MIN_LIKES = 15;
 const MAX_LIKES = 200;
-const MIN_NUMBER_AVATAR = 1;
-const MAX_NUMBER_AVATAR =6;
+const MIN_VALUE_AVATAR = 1;
+const MAX_VALUE_AVATAR =6;
 const DESCRIPTION = 'Придумать описание.. Может можно не можно..?';
 const TEXT_MESSAGE = [
   'Всё отлично!',
@@ -28,12 +28,14 @@ const NAME = [
   'Денис'
 ];
 
-let urlPhoto = 1;
+const generateId = createRandomIdFromRangeGenerator(MIN_VALUE, MAX_VALUE);
+const generateCommentId = createRandomIdFromRangeGenerator(MIN_VALUE, MAX_VALUE);
+const generateUrlPhoto = createIdGenerator (MIN_VALUE_AVATAR, MAX_VALUE_AVATAR);
 
 const createComment = () => {
     return {
-    id: getRandomPositiveInteger(0, generateIdNumber.length),
-    avatar: `img/avatar-${getRandomPositiveInteger(MIN_NUMBER_AVATAR, MAX_NUMBER_AVATAR)}.svg`,
+    id: generateCommentId(MIN_VALUE, MAX_VALUE),
+    avatar: `img/avatar-${getRandomPositiveInteger(MIN_VALUE_AVATAR, MAX_VALUE_AVATAR)}.svg`,
     message: TEXT_MESSAGE[getRandomPositiveInteger(0, TEXT_MESSAGE.length - 1)],
     name: NAME[getRandomPositiveInteger(0, NAME.length - 1)]
   }
@@ -42,12 +44,12 @@ const comments = Array.from({length: commentsCount}, createComment)
 
 const createDescriptionPhoto = () => {
   return {
-    id: getRandomPositiveInteger(0, generateIdNumber.length),
-    url: `photos/${urlPhoto++}.jpg`,
+    id: generateId(),
+    url: `photos/${generateUrlPhoto()}.jpg`,
     description: DESCRIPTION,
     likes: getRandomPositiveInteger(MIN_LIKES, MAX_LIKES),
     comments: comments
   }
 }
 
-export {MAX_NUMBER, createDescriptionPhoto};
+export {MAX_VALUE, createDescriptionPhoto};

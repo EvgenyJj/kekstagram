@@ -14,5 +14,30 @@ export const getStringLengthCheck = (testString, MAXIMUM_STRING_LENGHT) => {
   return testString.length > MAXIMUM_STRING_LENGHT ? false : true;
 }
 
-// Функция генерации массива из целых, неповторяющихся чисел в диапозоне.
-export const generateIdNumber = _.shuffle(_.range(1,26)).slice(0,25);
+// Функция-генератор для получения уникальных идентификаторов.
+export function createIdGenerator () {
+  let lastGeneratedId = 0;
+
+  return function () {
+    lastGeneratedId += 1;
+    return lastGeneratedId;
+  };
+}
+
+// Функция-генератор для получения случайных идентификаторов из указанного диапазона, и так,
+// чтобы они не повторялись, пока не будут перебраны все числа из этого промежутка.
+export function createRandomIdFromRangeGenerator (min, max) {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = getRandomPositiveInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      throw new Error('Перебраны все числа из диапазона от ' + min + ' до ' + max);
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomPositiveInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+}

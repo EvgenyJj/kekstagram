@@ -1,4 +1,4 @@
-import {createDescriptionPhoto, MAX_NUMBER} from'./mock-data.js';
+import {createDescriptionPhoto, MAX_VALUE} from'./mock-data.js';
 
-const generateUserPostedPhoto = Array.from({length: MAX_NUMBER}, createDescriptionPhoto);
+const generateUserPostedPhoto = Array.from({length: MAX_VALUE}, createDescriptionPhoto);
 console.log(generateUserPostedPhoto);
