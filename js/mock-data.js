@@ -52,4 +52,6 @@ const createDescriptionPhoto = () => {
   }
 }
 
-export {MAX_VALUE, createDescriptionPhoto};
+const generateUserPostedPhoto = () => Array.from({length: MAX_VALUE}, createDescriptionPhoto);
+
+export {MAX_VALUE, generateUserPostedPhoto};

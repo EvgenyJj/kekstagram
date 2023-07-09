@@ -41,3 +41,11 @@ export function createRandomIdFromRangeGenerator (min, max) {
     return currentValue;
   };
 }
+
+export const isEscapeKey = (evt) => {
+  return evt.key === 'Escape';
+};
+
+export const isEnterKey = (evt) => {
+  return evt.key === 'Enter';
+};
