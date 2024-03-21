@@ -1,4 +1,4 @@
-import {getRandomIntegerFromRange, getRandomArrayElement} from './util.js';
+import { getRandomIntegerFromRange, getRandomArrayElement } from './util.js';
 
 const DESCRIPTION = 'Здесь должно быть восхитительное описание, к не менее прекрасной фотографии!';
 
@@ -49,7 +49,7 @@ const createPost = () => {
     url:'photos/' + pictureId++ + '.jpg',
     description: DESCRIPTION,
     likes: getRandomIntegerFromRange(15, 200),
-    comments: Array.from({length: getRandomIntegerFromRange(1, 4)}, createComment),
+    comments: Array.from({length: getRandomIntegerFromRange(1, 12)}, createComment),
   };
 };
 
