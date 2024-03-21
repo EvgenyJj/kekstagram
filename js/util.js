@@ -2,7 +2,7 @@ const checkingMaximumStringLength = (string, length) => length >= string.length;
 
 const getRandomIntegerFromRange = (min, max) => {
   if (min >= max) {
-    throw new Error('Не верно указан диапазон: значение "от" первышет или равно "до"');
+    console.error('Не верно указан диапазон: значение "от"' + '(' + min + ')' + ' первышет или равно "до"' + '(' + max + ').');
   }
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
