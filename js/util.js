@@ -9,4 +9,8 @@ const getRandomIntegerFromRange = (min, max) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomIntegerFromRange(0, elements.length - 1)];
 
-export {getRandomIntegerFromRange, getRandomArrayElement};
+const isEscapeKey = (evt) => {
+  return evt.key === 'Escape';
+};
+
+export {getRandomIntegerFromRange, getRandomArrayElement, isEscapeKey};

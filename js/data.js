@@ -36,7 +36,7 @@ const createComment = () => {
 
   return {
     id: commentId++,
-    avatar: 'img/avatar-' + getRandomIntegerFromRange(1, 6) + '.svg',
+    avatar: `img/avatar-${getRandomIntegerFromRange(1, 6)}.svg`,
     message: createMessage(),
     name: getRandomArrayElement(NAMES),
   };
@@ -46,10 +46,10 @@ const createPost = () => {
 
   return {
     id: descriptionId++,
-    url:'photos/' + pictureId++ + '.jpg',
+    url:`photos/${pictureId++}.jpg`,
     description: DESCRIPTION,
     likes: getRandomIntegerFromRange(15, 200),
-    comments: Array.from({length: getRandomIntegerFromRange(1, 12)}, createComment),
+    comments: Array.from({length: getRandomIntegerFromRange(3, 21)}, createComment),
   };
 };
 
