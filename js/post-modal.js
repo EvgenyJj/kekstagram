@@ -1,47 +1,26 @@
 import { isEscapeKey } from './util.js';
 
+const COMMENTS_STEP = 5;
+
 const postModal = document.querySelector('.big-picture');
 const buttonClosePostModal = postModal.querySelector('.big-picture__cancel');
 const commentsList = document.querySelector('.social__comments');
 const commentsItem = document.querySelector('.social__comment');
+const commentShownCounter = document.querySelector('.social__comment-shown-count');
+const commentTotalCounter = document.querySelector('.social__comment-total-count');
+const commentsLoaderButton = document.querySelector('.comments-loader');
 
 let comments = [];
+let displayedComments = 0;
 
-const onModalEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeModal();
-  }
+const updateCommentCounter = () => {
+  displayedComments = Math.min(displayedComments + COMMENTS_STEP, comments.length);
+  commentShownCounter.textContent = displayedComments;
 };
 
-function openModal () {
-  postModal.classList.remove('hidden');
-  postModal.querySelector('.social__comment-count').classList.add('hidden');
-  postModal.querySelector('.comments-loader').classList.add('hidden');
-  document.body.classList.add('modal-open');
-  buttonClosePostModal.addEventListener('click', onCloseButtonClick);
-  document.addEventListener('keydown', onModalEscKeydown);
+const setLoaderButtonStatus = () => {
+  commentsLoaderButton.classList.toggle('hidden', displayedComments >= comments.length);
 };
-
-function closeModal () {
-  postModal.classList.add('hidden');
-  postModal.querySelector('.social__comment-count').classList.remove('hidden');
-  postModal.querySelector('.comments-loader').classList.remove('hidden');
-  document.body.classList.remove('modal-open');
-  buttonClosePostModal.removeEventListener('click', onCloseButtonClick);
-  document.removeEventListener('keydown', onModalEscKeydown);
-};
-
-function onCloseButtonClick () {
-  closeModal();
-};
-
-const fillingInfoPost = (post) => {
-
-  postModal.querySelector('.big-picture__img img').src = post.url;
-  postModal.querySelector('.likes-count').textContent = post.likes;
-  postModal.querySelector('.social__caption').textContent = post.description;
-}
 
 const createComment = (comment) => {
   const newComment = commentsItem.cloneNode(true);
@@ -54,12 +33,58 @@ const createComment = (comment) => {
 };
 
 const fillingComments = () => {
-  comments.forEach((comment) => commentsList.append(createComment(comment)));
-}
+  comments.slice(displayedComments, displayedComments + COMMENTS_STEP).forEach((comment) => commentsList.append(createComment(comment)));
+  updateCommentCounter();
+  setLoaderButtonStatus();
+};
+
+const fillingInfoPost = (post) => {
+
+  postModal.querySelector('.big-picture__img img').src = post.url;
+  postModal.querySelector('.likes-count').textContent = post.likes;
+  postModal.querySelector('.social__caption').textContent = post.description;
+};
+
+function openModal () {
+  postModal.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  buttonClosePostModal.addEventListener('click', onCloseButtonClick);
+  document.addEventListener('keydown', onModalEscKeydown);
+  commentsLoaderButton.addEventListener('click', onCommentsLoaderButtonClick);
+};
+
+function closeModal () {
+  postModal.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  buttonClosePostModal.removeEventListener('click', onCloseButtonClick);
+  document.removeEventListener('keydown', onModalEscKeydown);
+  commentsLoaderButton.removeEventListener('click', onCommentsLoaderButtonClick);
+};
+
+const onModalEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeModal();
+  }
+};
+
+function onCloseButtonClick () {
+  closeModal();
+};
+
+function onCommentsLoaderButtonClick () {
+  fillingComments();
+};
+
+const resetLastPostValues = () => {
+  commentsList.innerHTML = '';
+  commentTotalCounter.textContent = comments.length;
+  displayedComments = 0;
+};
 
 const renderPostModal = (post) => {
-  commentsList.innerHTML = '';
   comments = post.comments;
+  resetLastPostValues();
   openModal();
   fillingInfoPost(post);
   fillingComments();
