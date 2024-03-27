@@ -45,7 +45,7 @@ const fillingInfoPost = (post) => {
   postModal.querySelector('.social__caption').textContent = post.description;
 };
 
-function openModal () {
+function openModal() {
   postModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
   buttonClosePostModal.addEventListener('click', onCloseButtonClick);
@@ -53,7 +53,7 @@ function openModal () {
   commentsLoaderButton.addEventListener('click', onCommentsLoaderButtonClick);
 };
 
-function closeModal () {
+function closeModal() {
   postModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   buttonClosePostModal.removeEventListener('click', onCloseButtonClick);
@@ -68,11 +68,11 @@ const onModalEscKeydown = (evt) => {
   }
 };
 
-function onCloseButtonClick () {
+function onCloseButtonClick() {
   closeModal();
 };
 
-function onCommentsLoaderButtonClick () {
+function onCommentsLoaderButtonClick() {
   fillingComments();
 };
 
