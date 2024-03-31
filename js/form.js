@@ -1,10 +1,14 @@
 import { isEscapeKey } from "./util.js";
 import { setValidator, validPristine, resetPristine } from "./validation.js";
+import { setScale, resetScale } from "./scale.js";
+import { createSlider, changeSliderOptions } from "./effect.js";
 
 const form = document.querySelector('.img-upload__form');
 const uploadFormInput = document.querySelector('.img-upload__input');
 const formEditModal = document.querySelector('.img-upload__overlay');
 const closeFormButton = document.querySelector('.img-upload__cancel');
+const effectsControl = document.querySelector('.effects__list');
+const checkedEffect = document.querySelector('.effects__radio[checked]');
 
 const openFormEditModal = () => {
   formEditModal.classList.remove('hidden');
@@ -16,6 +20,8 @@ const openFormEditModal = () => {
 const closeFormEditModal = () => {
   form.reset();
   resetPristine();
+  resetScale();
+  changeSliderOptions(checkedEffect.value);
   formEditModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   closeFormButton.removeEventListener('click', onCloseFormButtonClick);
@@ -45,10 +51,17 @@ function onFormSubmit(evt) {
   validPristine();
 };
 
+function onEffectsControlChange(evt) {
+  changeSliderOptions(evt.target.value);
+}
+
 const initFormAction = () => {
+  setValidator();
+  setScale();
+  createSlider(checkedEffect.value);
   uploadFormInput.addEventListener('change', onUploadInputChange);
   form.addEventListener('submit', onFormSubmit);
-  setValidator();
+  effectsControl.addEventListener('change', onEffectsControlChange);
 };
 
 export {initFormAction};
