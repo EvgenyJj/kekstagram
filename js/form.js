@@ -1,4 +1,6 @@
 import { isEscapeKey } from "./util.js";
+import { sendData } from "./api.js";
+import { renderMessage } from "./alert.js";
 import { setValidator, validPristine, resetPristine } from "./validation.js";
 import { setScale, resetScale } from "./scale.js";
 import { createSlider, changeSliderOptions } from "./effect.js";
@@ -9,6 +11,12 @@ const formEditModal = document.querySelector('.img-upload__overlay');
 const closeFormButton = document.querySelector('.img-upload__cancel');
 const effectsControl = document.querySelector('.effects__list');
 const checkedEffect = document.querySelector('.effects__radio[checked]');
+const formSubmitButton = document.querySelector('.img-upload__submit');
+const successMessage = document.querySelector('#success').content.querySelector('.success');
+const errorMessage = document.querySelector('#error').content.querySelector('.error');
+
+const SUCCESS_STATUS = 'success';
+const ERROR_STATUS = 'error';
 
 const openFormEditModal = () => {
   formEditModal.classList.remove('hidden');
@@ -26,6 +34,21 @@ const closeFormEditModal = () => {
   document.body.classList.remove('modal-open');
   closeFormButton.removeEventListener('click', onCloseFormButtonClick);
   document.removeEventListener('keydown', onModalEscKeydown);
+};
+
+const setSubmitButtonStatus = (value) => {
+  formSubmitButton.disabled = value;
+};
+
+const showSuccess = () => {
+  closeFormEditModal();
+  renderMessage(successMessage, SUCCESS_STATUS);
+  setSubmitButtonStatus(false);
+};
+
+const showError = () => {
+  renderMessage(errorMessage, ERROR_STATUS);
+  setSubmitButtonStatus(false);
 };
 
 const onModalEscKeydown = (evt) => {
@@ -48,7 +71,10 @@ function onUploadInputChange() {
 
 function onFormSubmit(evt) {
   evt.preventDefault();
-  validPristine();
+  if (validPristine()) {
+    setSubmitButtonStatus(true);
+    sendData(showSuccess, showError, new FormData(evt.target));
+  }
 };
 
 function onEffectsControlChange(evt) {

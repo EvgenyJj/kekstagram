@@ -1,10 +1,8 @@
-import { createPosts } from "./data.js";
 import { renderPostModal } from "./post-modal.js";
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const postThumbnails = createPosts();
 const picturesContainerFragment = document.createDocumentFragment();
 
 const createPostThumbnails = (post) => {
@@ -21,10 +19,10 @@ const createPostThumbnails = (post) => {
   picturesContainerFragment.appendChild(pictureElement);
 };
 
-const renderPostThumbnails = () => {
+const renderPostThumbnails = (postThumbnails) => {
 
   postThumbnails.forEach((post) => createPostThumbnails(post));
   picturesContainer.appendChild(picturesContainerFragment);
 };
 
-renderPostThumbnails();
+export {renderPostThumbnails};
