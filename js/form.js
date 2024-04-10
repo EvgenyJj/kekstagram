@@ -14,9 +14,13 @@ const checkedEffect = document.querySelector('.effects__radio[checked]');
 const formSubmitButton = document.querySelector('.img-upload__submit');
 const successMessage = document.querySelector('#success').content.querySelector('.success');
 const errorMessage = document.querySelector('#error').content.querySelector('.error');
+const previewPhoto = document.querySelector('.img-upload__preview img');
+const previewEffects = document.querySelectorAll('.effects__preview');
 
 const SUCCESS_STATUS = 'success';
 const ERROR_STATUS = 'error';
+
+const FILE_TYPES = ['.jpg', '.jpeg', '.png'];
 
 const openFormEditModal = () => {
   formEditModal.classList.remove('hidden');
@@ -65,8 +69,19 @@ function onCloseFormButtonClick() {
   closeFormEditModal();
 };
 
-function onUploadInputChange() {
-  openFormEditModal();
+const onUploadInputChange = (evt) => {
+  const file = evt.target.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    openFormEditModal();
+    const src = URL.createObjectURL(file);
+    previewPhoto.src = src;
+    previewEffects.forEach((previewEffect) => {
+      previewEffect.style.backgroundImage = `url(${src})`;
+    });
+  }
 };
 
 function onFormSubmit(evt) {
